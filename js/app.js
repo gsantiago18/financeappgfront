@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert(data.message)
                      // Guardar el token y el nombre del usuario en localStorage
                      localStorage.setItem("token", data.token);
-                     localStorage.setItem("user", data.user);
+                     localStorage.setItem("user", data.nombre);
 
                      window.location.href = "home.html";
                 }else{
