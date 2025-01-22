@@ -10,32 +10,116 @@
   </head>
   <body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
 
-    <!-- Example Code -->
+    <script>
+        fetch("/pages/navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error cargando la barra de navegación:", error));
+    </script>
+    <div id="navbar-container"></div>
+      
+      
+      
     
         
-    <div class="container text-center">
-      <div class="row align-items-start">
-        <div class="col">
-          Monto
+      <div class="card mt-2">
+        <h2 class="text-center">GASTOS REALIZADOS</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Monto</th>
+                        <th>Motivo</th>
+                        <th>Observación</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-primary">
+                        <td> $ 250.000</td>
+                        <td>Comida</td>
+                        <td>Almuerzo ejecutivo chipichape</td>
+                        <td>2025-01-10</td>
+                    </tr>
+                    <tr>
+                        <td>$ 150.000</td>
+                        <td>Transporte</td>
+                        <td>Taxi aeropuerto</td>
+                        <td>2025-01-08</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td>$ 320.000</td>
+                        <td>Entretenimiento</td>
+                        <td>Entrada cine + snacks</td>
+                        <td>2025-01-05</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>$ 150.000</td>
+                        <td>Transporte</td>
+                        <td>Taxi aeropuerto</td>
+                        <td>2025-01-08</td>
+                    </tr>
+                    <tr class="table-primary text-center">
+                        <td>$ 320.000</td>
+                        <td>Entretenimiento</td>
+                        <td>Entrada cine + snacks</td>
+                        <td>2025-01-05</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>$ 80.000</td>
+                        <td>Comida</td>
+                        <td>Desayuno panadería</td>
+                        <td>2025-01-07</td>
+                    </tr>
+                    <tr class="table-primary text-center">
+                        <td>$ 500.000</td>
+                        <td>Compras</td>
+                        <td>Ropa deportiva</td>
+                        <td>2025-01-12</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>$ 200.000</td>
+                        <td>Comida</td>
+                        <td>Cena en restaurante italiano</td>
+                        <td>2025-01-06</td>
+                    </tr>
+                    <tr class="table-primary text-center">
+                        <td>$ 45.000</td>
+                        <td>Transporte</td>
+                        <td>Pasajes bus</td>
+                        <td>2025-01-03</td>
+                    </tr>
+                    <tr class=" text-center">
+                        <td>$ 275.000</td>
+                        <td>Salud</td>
+                        <td>Consulta médica</td>
+                        <td>2025-01-09</td>
+                    </tr>
+                    <tr class="table-primary text-center">
+                        <td>$ 600.000</td>
+                        <td>Tecnología</td>
+                        <td>Compra de audífonos</td>
+                        <td>2025-01-11</td>
+                    </tr>
+                    <tr class=" text-center">
+                        <td>$ 95.000</td>
+                        <td>Educación</td>
+                        <td>Libro de programación</td>
+                        <td>2025-01-04</td>
+                    </tr>
+                    <tr class="table-primary text-center">
+                        <td>$ 130.000</td>
+                        <td>Comida</td>
+                        <td>Almuerzo sushi bar</td>
+                        <td>2025-01-02</td>
+                    </tr>
+                    <!-- Agrega más filas aquí -->
+                </tbody>
+            </table>
         </div>
-        <div class="col">
-          Motivo
-        </div>
-        <div class="col">
-        Descripción
-        </div>
-        <div class="col">
-            Fecha
-            </div>
-      </div>
     </div>
-
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
 
     
     
