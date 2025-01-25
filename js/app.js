@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.getElementById("registerForm");
     const loginForm = document.getElementById("loginForm");
@@ -51,15 +52,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 const data = await response.json();
                 if (response.ok){
-                    alert(data.message)
+                    Swal.fire({
+                        icon: 'success',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                      // Guardar el token y el nombre del usuario en localStorage
                      localStorage.setItem("token", data.token);
                      localStorage.setItem("user", data.nombre);
                      localStorage.setItem("user_id", data.user_id);
 
-                     window.location.href = "home.html";
+                     setTimeout(() => {
+                        window.location.href = "home.html";
+                    }, 3000);
                 }else{
-                    alert(data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en inicio de sesión',
+                        text: data.message,
+                        confirmButtonText: 'Intentar de nuevo'
+                    });
                 }
 
             }catch(error){
@@ -73,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Los elementos select no se encontraron en el DOM.");
         return;
     }
-    //Cargar Categorias
+    
     fetch("http://127.0.0.1:5000/api/categoria", {
         method: "GET"
     }) 
@@ -177,7 +190,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const result = await response.json();
                 if (response.ok){
-                    alert(result.message);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Gasto registrado',
+                        text: result.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    
                     gastoForm.reset()
                 }else{
                     alert(`Error: ${result.message || "No se pudo registrar el gasto."}`);
