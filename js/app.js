@@ -116,23 +116,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 subcategoriaSelect.style.display = "block";
                 labelcont.style.display = "block";
 
-                fetch(`http://127.0.0.1:5000/api/subcategorias/${categoriaId}`,
-                    {method: "GET"}
-                )
-                    .then(response => response.json())
-                    .then(subcategorias => {
-                        subcategorias.forEach(sub => {  // Cambiado "subcategoria" por "sub"
-                            let option = document.createElement("option");
-                            option.value = sub.id;
-                            option.textContent = sub.nombre;
-                            subcategoriaSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error("Error cargando subcategorías:", error));
+                let cachedSubcategorias = localStorage.getItem(`subcategorias_${categoriaId}`);
+
+                if (cachedSubcategorias) {
+                    console.log("Cargando subcategorías desde localStorage");
+                    renderSubcategorias(JSON.parse(cachedSubcategorias));
+                }else{
+
+                    fetch(`http://127.0.0.1:5000/api/subcategorias/${categoriaId}`,
+                        {method: "GET"}
+                    )
+                        .then(response => response.json())
+                        .then(subcategorias => {
+                            // Guardar en localStorage
+                            localStorage.setItem(`subcategorias_${categoriaId}`, JSON.stringify(subcategorias));
+                            renderSubcategorias(subcategorias);
+                        })
+                        .catch(error => console.error("Error cargando subcategorías:", error));
+                    }        
             } else {
                 subcategoriaSelect.style.display = "none";
                 labelcont.style.display = "none";
             }
+
+            function renderSubcategorias(subcategorias) {
+                subcategorias.forEach(sub => {
+                    let option = document.createElement("option");
+                    option.value = sub.id;
+                    option.textContent = sub.nombre;
+                    subcategoriaSelect.appendChild(option);
+                });
+            }
+
+
         });
     }
 
@@ -191,8 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await response.json();
                 if (response.ok){
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Gasto registrado',
+                        icon: 'success',                        
                         text: result.message,
                         showConfirmButton: false,
                         timer: 1500
