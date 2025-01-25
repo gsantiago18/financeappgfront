@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const subcategoriaSelect = document.getElementById("subcategoria");
     const labelcont = document.getElementById("labelCat");
     const gastoForm = document.getElementById("gastoForm");
+     
     
     //Registrar Usuario
     if (registerForm) {
@@ -17,11 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const confirmPassword = document.getElementById("confirmPassword").value;
 
             if (password !== confirmPassword) {
-                alert("Las contraseñas no coinciden");
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error en registro',
+                    text: 'Las contraseñas no coinciden',
+                    confirmButtonText: 'Intentar de nuevo'
+                    });
+               
                 return;
             }
 
-            const response = await fetch("http://localhost:5000/api/register", {
+            const response = await fetch("https://financeappgback-production.up.railway.app/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ nombre, email, password })
@@ -45,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const password = document.getElementById("password").value;
 
             try{
-                const response = await fetch("http://127.0.0.1:5000/api/login",{
+                const response = await fetch("https://financeappgback-production.up.railway.app/api/login",{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify({email,password})
@@ -87,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     
-    fetch("http://127.0.0.1:5000/api/categoria", {
+    fetch("https://financeappgback-production.up.railway.app/api/categoria", {
         method: "GET"
     }) 
         .then(response => {
@@ -123,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     renderSubcategorias(JSON.parse(cachedSubcategorias));
                 }else{
 
-                    fetch(`http://127.0.0.1:5000/api/subcategorias/${categoriaId}`,
+                    fetch(`https://financeappgback-production.up.railway.app/api/subcategorias/${categoriaId}`,
                         {method: "GET"}
                     )
                         .then(response => response.json())
@@ -185,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 observacion: observacion || null,
                 subcategoriaId: subcategoriaId || null
             }
-            let url = `http://127.0.0.1:5000/api/nuevo_gasto/${categoriaId}/${userId}`;
+            let url = `https://financeappgback-production.up.railway.app/api/nuevo_gasto/${categoriaId}/${userId}`;
 
             // 🔹 Solo agregar `subcategoriaId` a la URL si no es null
             if (subcategoriaId !== null) {
@@ -225,14 +232,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
         })
     }
-
-
-
-
-
-
-
-
-
 
 });

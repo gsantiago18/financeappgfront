@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const cards = document.querySelectorAll(".card-item");    
     const expenseContainer = document.getElementById("expenseCards");
 
+    //Api para conectar al backend
+    const API_BASE_URL = "https://financeappgback-production.up.railway.app";
+
 
     //Variales para la sesion
    
@@ -84,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function showAllCards() {
         // Llamar a la API para obtener todos los gastos del usuario
-        fetch(`http://127.0.0.1:5000/api/registro/${userId}`)
+        fetch(`${API_BASE_URL}/api/registro/${userId}`)
         .then(response => response.json())
         .then(data=>{
             renderExpenses(data);
@@ -93,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function fetchFilteredExpenses(){
-        let url = `http://127.0.0.1:5000/api/registro/${userId}`;
+        let url = `${API_BASE_URL}/api/registro/${userId}`;
 
         const selectedFromDate = fromDate.value;
         const selectedToDate = toDate.value;
