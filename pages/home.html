@@ -30,21 +30,10 @@
     </style>
 </head>
 <body>
-    <script>
-     document.addEventListener("DOMContentLoaded", function() {
-        fetch("/pages/navbar.html")
-            .then(response => response.text())
-            .then(data => {
-                const navbarContainer = document.getElementById("navbar-container");
-                if (navbarContainer) {
-                    navbarContainer.innerHTML = data;
-                }
-            })
-            .catch(error => console.error("Error cargando la barra de navegación:", error));
-    });
-    </script>
 
 <div id="navbar-container"></div>
+<script src="../js/navbar.js"></script>
+
 
 <div class="container my-4">
 
@@ -90,7 +79,7 @@
             <div class="col-md-6">
                 <label for="filterCategory" class="form-label">📂 Categoría:</label>
                 <select id="filterCategory" class="form-select">
-                    <option value="">Todas</option>
+                    <option value=""></option>
                     <option value="12">Gastos Fijos</option>
                     <option value="13">Gastos Varios</option>
                 </select>
@@ -102,6 +91,7 @@
             <div class="col-md-6">
                 <label for="filterSubcategory" class="form-label">📑 Subcategoría:</label>
                 <select id="filterSubcategory" class="form-select">
+                    <option value=""></option>
                     <option value="1">GASOLINA</option>
                     <option value="2">PARQUEADERO</option>
                     <option value="3">ALMUERZO</option>

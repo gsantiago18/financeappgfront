@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                      setTimeout(() => {
                         window.location.href = "home.html";
-                    }, 3000);
+                    }, 2000);
                 }else{
                     Swal.fire({
                         icon: 'error',

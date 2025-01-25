@@ -1,5 +1,30 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Obtener los elementos del DOM
+
+    const token = localStorage.getItem("token");
+    const logoutLink = document.getElementById("logout")
+    const userId = localStorage.getItem("user_id");
+
+       //validacion para que no acceda a ninguna pagina sin estar logueado
+       if (!token || !userId) {
+        console.warn("Acceso no autorizado. Redirigiendo al login...");
+
+        Swal.fire({
+            icon: "warning",
+            title: "Acceso no autorizado",
+            text: "Debes iniciar sesión para acceder a esta página.",
+            confirmButtonText: "Ir al login",
+            allowOutsideClick: false
+        }).then(() => {
+            window.location.href = "/pages/login.html"; // Redirigir al login después de la alerta
+        });
+
+        return; // Evitar que el resto del código se ejecute
+    }
+
+    console.log("Usuario autenticado, cargando home...");
+
+
     const mainFilter = document.getElementById("mainFilter");
     const dateFilter = document.getElementById("dateFilter");
     const categoryFilter = document.getElementById("categoryFilter");
@@ -9,9 +34,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const toDate = document.getElementById("filterEndDate");
     const filterCategory = document.getElementById("filterCategory");
     const filterSubcategory = document.getElementById("filterSubcategory");
-    const cards = document.querySelectorAll(".card-item");
-    const userId = localStorage.getItem("user_id");
+    const cards = document.querySelectorAll(".card-item");    
     const expenseContainer = document.getElementById("expenseCards");
+
+
+    //Variales para la sesion
+   
+
+
+ 
 
     function toggleFilters() {
         // Ocultar todos los filtros por defecto
@@ -106,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let totalAmount = 0;
         expenses.forEach(exp=>{
             const card = document.createElement("div");
-            card.classList.add("cold-md-4", "card-item");
+            card.classList.add("cold-md-4", "col-sm-6", "col-12", "card-item");
 
             // Asignar icono según la categoría
           
@@ -174,4 +205,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Cargar todos los gastos al cargar la página
     showAllCards();
+
+    //cerrar sesion
+    
+   
+        if (logoutLink) {
+            
+      
+            logoutLink.addEventListener("click", function (event) {
+                console.log("Cerrando sesión...");
+                event.preventDefault(); // Evita la redirección automática
+
+                // Eliminar los datos del usuario del localStorage
+                localStorage.removeItem("token");
+                localStorage.removeItem("user_id");
+                localStorage.removeItem("user");
+
+                // Redirigir al login
+                window.location.href = "login.html";
+            });
+        }
 });
