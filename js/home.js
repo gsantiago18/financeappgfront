@@ -1,4 +1,9 @@
+import CONFIG from "../js/config.js";
+
 document.addEventListener("DOMContentLoaded", function() {
+    //API DINAMICA PARA PRODUCCION Y LOCAL
+    const API_BASE_URL = CONFIG.API_URL;
+
     // Obtener los elementos del DOM
 
     const token = localStorage.getItem("token");
@@ -37,8 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const cards = document.querySelectorAll(".card-item");    
     const expenseContainer = document.getElementById("expenseCards");
 
-    //Api para conectar al backend
-    const API_BASE_URL = "https://financeappgback-production.up.railway.app";
+    
+    
 
 
     //Variales para la sesion
@@ -87,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function showAllCards() {
         // Llamar a la API para obtener todos los gastos del usuario
-        fetch(`${API_BASE_URL}/api/registro/${userId}`)
+        fetch(`${API_BASE_URL}/registro/${userId}`)
         .then(response => response.json())
         .then(data=>{
             renderExpenses(data);
@@ -96,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function fetchFilteredExpenses(){
-        let url = `${API_BASE_URL}/api/registro/${userId}`;
+        let url = `${API_BASE_URL}/registro/${userId}`;
 
         const selectedFromDate = fromDate.value;
         const selectedToDate = toDate.value;
@@ -148,11 +153,13 @@ document.addEventListener("DOMContentLoaded", function() {
             let iconmont= "\uD83D\uDCB6" ;
             let icontdate= "📅" ;
             let iconobservation= "📝" ;
+            let tab = "💳"; // Valor por defecto
             switch (exp.categoria) {
                 case "GASTOS FIJOS": tab = "📌" ; break;
                 case "GASTOS VARIOS": tab = " 🔄" ; break;
                 default: tab = "💳"; // Icono por defecto
             }
+            let icon = "💳"; // Valor por defecto
             switch (exp.subcategoria) {
                 case "": icon = "🛍️"; break;
                 case "GASOLINA": icon = "⛽"; break;

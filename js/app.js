@@ -1,11 +1,16 @@
+import CONFIG from "../js/config.js";
+
 
 document.addEventListener("DOMContentLoaded", () => {
+    const API_BASE_URL = CONFIG.API_URL;
+
     const registerForm = document.getElementById("registerForm");
     const loginForm = document.getElementById("loginForm");
     const categoriaSelect = document.getElementById("categoria");
     const subcategoriaSelect = document.getElementById("subcategoria");
     const labelcont = document.getElementById("labelCat");
     const gastoForm = document.getElementById("gastoForm");
+    const submitDeuda = document.getElementById("submitDeuda"); 
      
     
     //Registrar Usuario
@@ -28,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            const response = await fetch("https://financeappgback-production.up.railway.app/api/register", {
+            const response = await fetch( `${API_BASE_URL}/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ nombre, email, password })
@@ -52,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const password = document.getElementById("password").value;
 
             try{
-                const response = await fetch("https://financeappgback-production.up.railway.app/api/login",{
+                const response = await fetch(`${API_BASE_URL}/login`,{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify({email,password})
@@ -94,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     
-    fetch("https://financeappgback-production.up.railway.app/api/categoria", {
+    fetch(`${API_BASE_URL}/categoria`, {
         method: "GET"
     }) 
         .then(response => {
@@ -130,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     renderSubcategorias(JSON.parse(cachedSubcategorias));
                 }else{
 
-                    fetch(`https://financeappgback-production.up.railway.app/api/subcategorias/${categoriaId}`,
+                    fetch(`${API_BASE_URL}/subcategorias/${categoriaId}`,
                         {method: "GET"}
                     )
                         .then(response => response.json())
@@ -192,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 observacion: observacion || null,
                 subcategoriaId: subcategoriaId || null
             }
-            let url = `https://financeappgback-production.up.railway.app/api/nuevo_gasto/${categoriaId}/${userId}`;
+            let url = `${API_BASE_URL}/nuevo_gasto/${categoriaId}/${userId}`;
 
             // 🔹 Solo agregar `subcategoriaId` a la URL si no es null
             if (subcategoriaId !== null) {
@@ -232,5 +237,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
         })
     }
+
+    //Registrar Deuda
+
+    if (submitDeuda) {
+        submitDeuda.addEventListener("click", async function () {
+            console.log("El botón de registrar deuda fue presionado"); // Debug
+
+            const userId = localStorage.getItem("user_id");
+            const monto = document.getElementById("montodeu").value;
+            const nombre = document.getElementById("namedeu").value;
+
+            console.log("User ID obtenido:", userId);
+            console.log("Datos a enviar:", { nombre, monto });
+
+            if (!userId || !monto || !nombre) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Todos los campos son obligatorios",
+                    confirmButtonText: "Intentar de nuevo"
+                });
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/nuevadeuda/${userId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        monto: monto
+                    }),
+                });
+
+                console.log("Respuesta recibida:", response);
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: "success",
+                        text: data.message,
+                    });
+                    deudaForm.reset();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.message || "No se pudo registrar la deuda",
+                    });
+                }
+
+            } catch (error) {
+                console.error("Error en la solicitud:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error de conexión",
+                    text: "No se pudo conectar con el servidor.",
+                });
+            }
+        });
+    }
+            
 
 });
